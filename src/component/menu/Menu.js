@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { useHistory } from 'react-router-dom';
 import { MenuCard } from '../../context/MenuProvider';
 import { Order } from '../../context/OrderProvide';
 import Logo from '../../static/Logo'
@@ -7,11 +8,16 @@ import css from './Menu.module.css'
 
 const Menu = prop =>{
     const {menu} = useContext(MenuCard);
+    const history = useHistory()
     const {sendOrder} = useContext(Order)
     const orderItems={}
     const addOrderItems=key=>{orderItems[key]=1; console.log(orderItems);}
     const isAdded= key=> {console.log(key); return orderItems[key] !== undefined};
-
+    const bufferOrder=(orderItems)=>{
+        sendOrder(orderItems);
+        history.push("/yourOrder")
+    }
+    console.log("Menu: ",menu);
     const menuItems = Object.entries(menu).map(([key,val]) => {
         return <ItemList key={key} val={val} qty={orderItems[key]} addOrderItems={()=>addOrderItems(key)} isAdded={()=>isAdded(key)} cssIconCenter={css.iconCenter}/>
     }
@@ -19,14 +25,15 @@ const Menu = prop =>{
 
     // useEffect(_=>{
     // },[menu]);
+    // 
 
     return(
         <>
         <nav className="navbar navbar-dark bg-dark text-light justify-content-between fixed-bottom">
-            <a className="navbar-brand">Aloo Kachaloo</a> 
+            <a href='#' className="navbar-brand">Aloo Kachaloo</a> 
             <div className="form-inline">
                 <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
-                <button className="btn btn-outline-success my-2 my-sm-0" onClick={()=>sendOrder(orderItems)}>Order</button>
+                <button className="btn btn-outline-success my-2 my-sm-0" onClick={()=>bufferOrder(orderItems)}>Order</button>
             </div>
         </nav>
         <div className='container'>

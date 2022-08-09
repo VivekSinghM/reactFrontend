@@ -5,9 +5,11 @@ export const MenuCard = createContext();
 const MenuProvider=props=>{
     const [menu,setMenu]=useState({}) 
     useEffect(_=>{
+        console.log("sending req for menu");
         fetch('/getMenu')
         .then(data=>data.json()).then(data=>{setMenu(data)})
-        .catch(error=>console.log(error))
+        .catch(error=>console.log(error));
+        console.log('menu loaded success', menu);
     },[]);
     return(
         <MenuCard.Provider value={{menu,setMenu}}>

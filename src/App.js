@@ -12,9 +12,11 @@ function App() {
   const {isAuth}= useContext(Auth)
   return (
     <>
-      {isAuth &&<Header/>}
+      {<Header auth={isAuth}/>}
       <Switch>
         <Route path="/home" component={Menu}></Route>
+        <Route path="/menu" component={Menu}></Route>
+        <Route path="/yourOrder" component={OrderItems}></Route>
         <Route path="/order" component={OrderItems}></Route>
         <Route path="/bill" component={Bill}></Route>
         {/* {!isAuth && <Route path="/home" ><Redirect to='/login'/></Route>} */}
